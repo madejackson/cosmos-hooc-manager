@@ -1,0 +1,84 @@
+{
+  "minVersion": "0.20.0",
+  "cosmos-installer": {
+    "form": [
+      {
+        "name": "warn1",
+        "label": "HOOC Connect ist ein verschlüsseltes VPN-Tool (BAB-tec) für den Fernzugriff auf Modbus/OpenWrt-Systeme. Der Manager lädt das Docker-Image aus dem HOOC-Portal und verwaltet den Container. Alle 30 s prüft ein Watchdog, ob er läuft.",
+        "type": "info"
+      }
+    ],
+    "translation": {
+      "de": {
+        "form.warn1.label": "HOOC Connect ist ein verschlüsseltes VPN-Tool (BAB-tec) für den Fernzugriff auf Modbus/OpenWrt-Systeme. Der Manager lädt das Docker-Image aus dem HOOC-Portal und verwaltet den Container. Alle 30 s prüft ein Watchdog, ob er läuft."
+      }
+    }
+  },
+  "services": {
+    "{ServiceName}": {
+      "image": "ghcr.io/madejackson/cosmos-hooc-manager:latest",
+      "container_name": "{ServiceName}",
+      "restart": "unless-stopped",
+      "environment": [
+        "PORT=8095",
+        "HOST=0.0.0.0",
+        "HOOC_API_PORT=1323",
+        "HOOC_DATA_DIR=/data"
+      ],
+      "volumes": [
+        {
+          "source": "{ServiceName}-data",
+          "target": "/data",
+          "type": "volume"
+        },
+        {
+          "source": "/var/run/docker.sock",
+          "target": "/var/run/docker.sock",
+          "type": "bind"
+        },
+        {
+          "source": "/dev/net/tun",
+          "target": "/dev/net/tun",
+          "type": "bind"
+        }
+      ],
+      "devices": [
+        "/dev/net/tun:/dev/net/tun"
+      ],
+      "privileged": true,
+      "labels": {
+        "cosmos-icon": "https://raw.githubusercontent.com/madejackson/cosmos-hooc-manager/main/cosmos/icon.png",
+        "cosmos-force-network-secured": "true",
+        "cosmos-auto-update": "true"
+      },
+      "routes": [
+        {
+          "name": "{ServiceName}",
+          "description": "HOOC Connect Manager",
+          "useHost": true,
+          "target": "http://{ServiceName}:8095",
+          "mode": "SERVAPP",
+          "Timeout": 14400000,
+          "ThrottlePerMinute": 12000,
+          "BlockCommonBots": true,
+          "SmartShield": {
+            "Enabled": true
+          }
+        },
+        {
+          "name": "{ServiceName}-hooc",
+          "description": "HOOC Connect Manager — HOOC Web UI",
+          "useHost": true,
+          "target": "http://{ServiceName}:8095/hooc/",
+          "mode": "SERVAPP",
+          "Timeout": 14400000,
+          "ThrottlePerMinute": 12000,
+          "BlockCommonBots": true,
+          "SmartShield": {
+            "Enabled": true
+          }
+        }
+      ]
+    }
+  }
+}
