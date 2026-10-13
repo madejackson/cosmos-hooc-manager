@@ -1,0 +1,9 @@
+{
+  "name": "HOOC Connect Manager",
+  "description": "Verwaltet den HOOC Connect (BAB-tec) VPN-Container für Cosmos: Image-Import aus dem HOOC-Portal, Start/Stop, Watchdog und integrierte HOOC-Web-UI.",
+  "longDescription": "<p>Der <b>HOOC Connect Manager</b> bringt das BAB-tec HOOC-Embedded-Gateway (verschlüsselter Fernzugriff auf Modbus/OpenWrt-Systeme) in Cosmos.</p><p>Er lädt das Docker-Image aus dem HOOC-Portal (wget-Link), importiert es in Docker und verwaltet den Container <code>hooc-connect</code> — inklusive Start/Stop/Neustart, Hardware-ID-Anzeige und einem Watchdog, der den VPN-Container alle 30 s neu startet, falls er ausfällt (wie das Original-<code>hooc watchdog</code>).</p><p>Die Oberfläche ist im Cosmos/Asera-Design gehalten (dunkel/hell, Public Sans) und stellt ausserdem die integrierte HOOC-Web-UI (Status &amp; Aktivierung) unter <code>/hooc/</code> bereit — ganz ähnlich dem HOOC Gateway Manager von BAB-tec.</p>",
+  "tags": ["hooc", "bab-tec", "vpn", "embedded-gateway", "modbus", "openwrt", "remote-access", "gateway", "watchdog"],
+  "repository": "https://github.com/madejackson/cosmos-hooc-manager",
+  "image": "https://github.com/madejackson/cosmos-hooc-manager/pkgs/container/cosmos-hooc-manager",
+  "supported_architectures": ["amd64", "arm64"]
+}
